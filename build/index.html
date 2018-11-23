@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>食在幣行</title>
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <style>
+    .margin-top-3 {
+      margin-top: 3em;
+    }
+	.title1
+	{
+	  text-align:center;
+	}
+	.title2
+	{
+	  font-family:微軟正黑體;
+	  font-size:15px;
+	}
+	.title4
+	{
+	  font-family:微軟正黑體;
+	  font-size:24px;
+	  font-weight:bold;
+	}
+
+  </style>
+</head>
+<body class="container">
+<div class="title1">
+<img src="https://i.imgur.com/ykBqKA3.jpg" width="350px" height="350px">
+</div>
+
+<div class="title4">
+<p align="center">►交易頁面 ►購票頁面 ►活動發起頁面 ►上架頁面 ►查看所購買票券數量</p>
+</div>
+
+
+
+
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2ObhuM1" width="250px" height="250px">
+    </div><br>
+    <div class="title2">
+     <p>店家名稱:大衛雞排店</p>
+     <p>商品名稱:招牌比臉大雞排一份</p>
+     <p>店家地址:桃園市中壢區中北路87號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+      <div class="title2">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+     <div class="title4">
+    <div class="title4">
+     <p>購買票券</p>
+    </div>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens()" class="btn btn-primary">購買</a>
+      </div>
+    </div>
+
+  </div>
+
+       <p>消費票券</p>
+    <div>
+  <div>
+      <div class="col-sm-12">
+        <div id="return-msg"></div>
+        <a href="#" onclick="returnTokens()" class="btn btn-primary">消耗票券</a>
+      </div>
+    </div>
+    
+  </div>
+
+
+
+
+
+
+   <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="https://pse.is/CGLHJ" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+     <p>店家名稱:50嵐(中原店)</p>
+     <p>商品名稱:抹茶拿鐵2杯</p>
+     <p>店家地址:桃園市中壢區日新路8號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title2">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total2"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining2"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold2"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost2"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+     <div class="title4">
+    <p>購買票券</p>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy2-msg"></div>
+        <input type="text" id="buy2" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens2()" class="btn btn-primary">購買</a>
+      </div>
+    </div>
+
+  </div>
+
+ <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="https://pse.is/CFFWJ" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+     <p>店家名稱:心丼食客</p>
+     <p>商品名稱:松版豬丼飯+日式和牛丼</p>
+     <p>店家地址:桃園市中壢區實踐路225-27號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+	<div class="title4">
+      <div class="title2">
+     <p>票券狀態</p>
+    </div>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total3"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining3"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold3"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost3"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title4">
+    <p>購買票券</p>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy3" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens3()" class="btn btn-primary">購買</a>
+      </div>
+    </div>
+  </div>
+
+
+   <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="https://pse.is/CDM5B" width="250px" height="250px">
+    </div><br>
+    <div class="title2">
+     <p>店家名稱:漢堡樹早餐店(中原店)</p>
+     <p>商品名稱:鐵板麵+雞排+大冰奶</p>
+     <p>店家地址:桃園市中壢區新中北路425號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+        <div class="title2">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+      <div class="title4">
+    <p>購買票券</p>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens()" class="btn btn-primary">購買</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2O63WRE " width="250px" height="250px">
+  </div><br>
+  <div class="title2">
+   <p>店家名稱:漢堡樹早餐店(中原店)</p>
+   <p>商品名稱:鐵板麵+雞排+大冰奶</p>
+   <p>店家地址:桃園市中壢區新中北路425號</p>
+ </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title2">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+     <div class="title4">
+    <p>購買票券</p>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens()" class="btn btn-primary">購買</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2Nm2k13" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+     <p>店家名稱:漢堡樹早餐店(中原店)</p>
+     <p>商品名稱:鐵板麵+雞排+大冰奶</p>
+     <p>店家地址:桃園市中壢區新中北路425號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title2">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+     <div class="title4">
+    <p>購買票券</p>
+	</div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens()" class="btn btn-primary">購買</a>
+      </div>
+    </div><br><br><br><br><br><br><br>
+
+  </div>
+
+  <div class="row margin-top-3">
+        <div class="col-sm-12">
+          <div class="title4">
+            <p>查詢購買票券數量</p>
+            </div>
+          <input type="text" id="voter-info", class="col-sm-8" placeholder="Enter the voter address" />&nbsp;
+          <a href="#" onclick="lookupVoterInfo()" class="btn btn-primary">查詢GO</a><div class="voter-details row text-left">
+          </div>
+        </div>
+      </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="app.js"></script>
+</html>
