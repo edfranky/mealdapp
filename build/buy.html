@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>食在幣行</title>
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <style>
+    .margin-top-3 {
+      margin-top: 3em;
+    }
+	.title1
+	{
+	  position:relative;
+	  margin-top:-190px;
+	  text-align:center; 
+	}
+	.title2
+	{
+	  font-family:微軟正黑體;
+	  font-size:18px;
+	  position:relative;
+	  margin-left:400px;
+	  margin-top:-265px;
+	  border-style:outset;
+	  border-width:3px;
+	}
+	.title3
+	{
+	  font-family:微軟正黑體;
+	  font-size:30px;
+	  font-weight:bold;
+	  position:relative;
+	  margin-left:0px;
+	  margin-top:0px;
+	}
+	.title4
+	{
+	  font-family:微軟正黑體;
+	  font-size:30px;
+	  font-weight:bold;
+	  position:relative;
+	  margin-left:0px;
+	  margin-top:10px;
+	  background-color:gold;
+	  text-align:center; 
+	}
+	.title5
+	{
+	  font-family:微軟正黑體;
+	  font-size:30px;
+	  font-weight:bold;
+	  position:relative;
+	  margin-left:200px;
+	  margin-top:0px;
+	}
+	.div2
+	{ 
+	  text-align:right;
+	}
+	.p1
+	{
+	  font-size:20px;
+	  font-weight:bold;
+	  color:red;
+	}
+	
+  </style>
+</head>
+<body class="container">
+<div class="title1">
+<img src="https://i.imgur.com/vmoc4yd.jpg" width="245px" height="245px">
+</div>
+
+<div class="title4">
+<p align="center">
+<a href="index.html" style="text-decoration:none">►首頁</a> 
+<a href="buy.html" style="text-decoration:none">►購票</a>
+<a href="check.html" style="text-decoration:none">►查看購買票券</a></p>
+</div>
+<a href="#" onclick="upyourgood()" class="btn btn-primary">商品上架</a>
+<div id="uppp" style="display:none">
+<div class="title5">
+<p>商品上架</p>
+<input type="text" id="inp1" class="col-sm-8" placeholder="請輸入圖片網址"/>
+<input type="text" id="inn1" class="col-sm-8" placeholder="店家名稱"/>
+<input type="text" id="ing1" class="col-sm-8" placeholder="商品名稱"/>
+<input type="text" id="ins1" class="col-sm-8" placeholder="店家地址"/>
+   <input type="text" id="u1" class="col-sm-8" placeholder="請輸入發行數量"/>
+   <input type="text" id="uc1" class="col-sm-8" placeholder="請輸入每張價格"/>
+   <br><br><br><br><br>
+   <a href="#"  onclick="upgood1(),alert('上架成功')" class="btn btn-primary">確認上架</a>
+</div>
+</div>
+<div class="row margin-top-3" >
+  <div class="col-sm-12">
+  <div class="div2">
+     <p class="p1">看不到票券狀態請按刷新鈕➡&nbsp;<a href="#" onclick="Tokensupdate()" class="btn btn-primary">刷新↻</a>
+	</div>
+      </div>
+    </div>
+
+
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2ObhuM1" width="250px" height="250px">
+    </div><br>
+    <div class="title2">
+	 <div class="title3">
+     <p>商品資訊</p>
+    </div>
+     <p>店家名稱:<br>大衛雞排店</p>
+     <p>商品名稱:<br>招牌比臉大雞排一份</p>
+     <p>店家地址:<br>桃園市中壢區中北路87號</p>
+	 </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+      <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy-msg"></div>
+        <input type="text" id="buy" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg"></div>
+        <a   onclick="showoption1()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost1" style="display:none">
+        <a href="#"  onclick="returnTokens()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens2()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens3()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens4()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens5()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens6()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  
+  
+
+ 
+
+   <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="https://pse.is/CGLHJ" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+	<div class="title3">
+     <p>商品資訊</p>
+    </div>
+     <p>店家名稱:<br>50嵐(中原店)</p>
+     <p>商品名稱:<br>抹茶拿鐵2杯</p>
+     <p>店家地址:<br>桃園市中壢區日新路8號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total2"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining2"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold2"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost2"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy2-msg"></div>
+        <input type="text" id="buy2" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens2()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg2"></div>
+        <a   onclick="showoption2()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost2" style="display:none">
+        <a href="#"  onclick="returnTokens7()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens8()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens9()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens10()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens11()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens12()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+ <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="https://pse.is/CFFWJ" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+	<div class="title3">
+     <p>商品資訊</p>
+    </div>
+     <p>店家名稱:<br>心丼食客</p>
+     <p>商品名稱:<br>松版豬丼飯+日式和牛丼</p>
+     <p>店家地址:<br>桃園市中壢區實踐路225-27號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+	<div class="title3"> 
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total3"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining3"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold3"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost3"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy3-msg"></div>
+        <input type="text" id="buy3" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens3()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg3"></div>
+        <a   onclick="showoption3()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost3" style="display:none">
+        <a href="#"  onclick="returnTokens13()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens14()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens15()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens16()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens17()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens18()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+   <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2RE8EEd" width="250px" height="250px">
+    </div><br>
+    <div class="title2">
+	<div class="title3">
+     <p>商品資訊</p>
+    </div>
+     <p>店家名稱:<br>肉Sandwich</p>
+     <p>商品名稱:<br>吃醋豬排三明治一份 </p>
+     <p>店家地址:<br>桃園市中壢區中豐路34號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+        <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total4"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining4"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold4"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost4"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy4-msg"></div>
+        <input type="text" id="buy4" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens4()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg4"></div>
+        <a   onclick="showoption4()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost4" style="display:none">
+        <a href="#"  onclick="returnTokens19()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens20()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens21()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens22()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens23()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens24()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img src="http://bit.ly/2QdecJ1" width="250px" height="250px">
+  </div><br>
+  <div class="title2">
+  <div class="title3">
+     <p>商品資訊</p>
+    </div>
+   <p>店家名稱:<br>好咖 Howcup Curry Cafe</p>
+   <p>商品名稱:<br>海鹽拿鐵兩杯</p>
+   <p>店家地址:<br>桃園市中壢區中北路19號</p>
+ </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total5"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining5"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold5"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost5"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy5-msg"></div>
+        <input type="text" id="buy5" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens5()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg5"></div>
+        <a   onclick="showoption5()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost5" style="display:none">
+        <a href="#"  onclick="returnTokens25()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens26()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens27()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens28()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens29()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens30()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<div class="col-sm-7 margin-top-3">
+ <div class="table-responsive">
+    <img src="http://bit.ly/2QenAMw" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+ <div class="title3">
+     <p>商品資訊</p>
+    </div>
+     <p>店家名稱:<br>老湯頭牛肉麵</p>
+     <p>商品名稱:<br>牛肉麵一份</p>
+     <p>店家地址:<br>桃園市中壢區環北路519號</p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total6"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining6"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold6"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost6"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy6-msg"></div>
+        <input type="text" id="buy6" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens6()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg6"></div>
+        <a   onclick="showoption6()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost6" style="display:none">
+        <a href="#"  onclick="returnTokens31()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens32()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens33()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens34()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens35()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens36()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+<div id="box" style="display:none">
+  <div class="col-sm-7 margin-top-3">
+	<div class="table-responsive">
+    <img id="play1" src="" width="250px" height="250px">
+  </div><br>
+    <div class="title2">
+	<div class="title3">
+     <p>商品資訊</p>
+    </div>
+     店家名稱:<br><p id="name1"></p>
+     商品名稱:<br><p id="goodname1"></p>
+     店家地址:<br><p id="site1"></p>
+   </div>
+  </div>
+
+  <div class="col-sm-offset-1 col-sm-4 margin-top-3">
+    <div class="row">
+       <div class="title3">
+     <p>票券狀態</p>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <td>發行數量</td>
+            <td id="tokens-total7"></td>
+          </tr>
+          <tr>
+            <td>剩餘數量</td>
+            <td id="tokens-remaining7"></td>
+          </tr>
+          <tr>
+            <td>賣出數量</td>
+            <td id="tokens-sold7"></td>
+          </tr>
+          <tr>
+            <td>每張價格</td>
+            <td id="token-cost7"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-3">
+    <div class="title3">
+     <p>購買票券</p>
+    </div>
+      <div class="col-sm-12">
+        <div id="buy7-msg"></div>
+        <input type="text" id="buy7" class="col-sm-8" placeholder="請輸入要購買的票券數量"/>&nbsp;
+        <a href="#" onclick="buyTokens7()" class="btn btn-primary">購買</a>
+        <p><div id="return-msg7"></div>
+        <a   onclick="showoption7()" class="btn btn-primary">選擇票券消耗張數</a></p>
+        <div id="cocost7" style="display:none">
+        <a href="#"  onclick="returnTokens37()" class="btn btn-primary">消耗1張</a>
+        <a href="#"  onclick="returnTokens38()" class="btn btn-primary">消耗2張</a>
+        <a href="#"  onclick="returnTokens39()" class="btn btn-primary">消耗3張</a>
+        <a href="#"  onclick="returnTokens40()" class="btn btn-primary">消耗4張</a>
+        <a href="#"  onclick="returnTokens41()" class="btn btn-primary">消耗5張</a>
+        <a href="#"  onclick="returnTokens42()" class="btn btn-primary">消耗6張</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+ 
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="app.js"></script>
+</html>

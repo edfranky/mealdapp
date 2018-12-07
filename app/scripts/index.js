@@ -1,252 +1,196 @@
-// Import the page's CSS. Webpack will know what to do with it.
-import "../styles/app.css";
+;(function($, window, document, undefined) {
+    var Carousel = function(elem, options) {
+        this.defaults = {
+            curDisplay: 0,
+            autoPlay: false,
+            interval: 3000
+        };
+        this.opts = $.extend({}, this.defaults, options);
 
-// Import libraries we need.
-import { default as Web3} from 'web3';
-import { default as contract } from 'truffle-contract'
+        var self = this;
+        this.$carousel = elem;
+        this.$aImg = this.$carousel.find('img');
 
-/*
- * When you compile and deploy your Voting contract,
- * truffle stores the abi and deployed address in a json
- * file in the build directory. We will use this information
- * to setup a Voting abstraction. We will use this abstraction
- * later to create an instance of the Voting contract.
- * Compare this against the index.js from our previous tutorial to see the difference
- * https://gist.github.com/maheshmurthy/f6e96d6b3fff4cd4fa7f892de8a1a1b4#file-index-js
- */
+        this.imgLen = this.$aImg.length;
+        this.curDisplay = this.opts.curDisplay;
+        this.autoPlay = this.opts.autoPlay;
+        this.viewWidth = $(window).width() / 2;
+        this.b_switch = true;
+        this.iNow = this.opts.curDisplay;
+        this.timer = null;
+        this.interval = this.opts.interval;
+        // 生成小点点
+        var htmlNav = "<ul>";
+        for (var i = 0; i < this.imgLen; i++) {
+            if (this.curDisplay == i) {
+                htmlNav += "<li class=on><a>" + i + "</a></li>";
+            } else {
+                htmlNav += "<li><a>" + i + "</a></li>";
+            }
+        }
+        htmlNav += "</ul>";
+        this.$carousel.parent().append('<div id=bannerNav>' + htmlNav + '</div>');
+        this.$aNav = this.$carousel.siblings('#bannerNav').find('ul li');
+    };
 
-import voting_artifacts from '../../build/contracts/Voting.json'
+    var outerWidth = parseInt(document.body.offsetWidth);
+    var middleWidth = 1920;
+    var _height = outerWidth >= middleWidth ? 380 : 300;
+    var _slideHeight = outerWidth >= middleWidth ? 330 : 260;
 
-var Voting = contract(voting_artifacts);
+    Carousel.prototype = {
+        play: function() {
+            if (this.autoPlay) {
+                if (this.iNow === this.imgLen - 1) {
+                    this.iNow = 0;
+                } else {
+                    this.iNow++;
+                }
 
-let candidates = {}
+                this.movingNext(this.iNow);
+            }
+        },
 
-let tokenPrice = null;
-let tokenPrice2 = null;
-let tokenPrice3 = null;
+        movingPrev: function(index) {
+            this.curDisplay = index;
 
-window.voteForCandidate = function(candidate) {
-  let candidateName = $("#candidate").val();
-  let voteTokens = $("#vote-tokens").val();
-  $("#msg").html("Vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain. Please wait.")
-  $("#candidate").val("");
-  $("#vote-tokens").val("");
+            this.initalCarousel();
+        },
 
-  /* Voting.deployed() returns an instance of the contract. Every call
-   * in Truffle returns a promise which is why we have used then()
-   * everywhere we have a transaction call
-   */
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.voteForCandidate(candidateName, voteTokens, {gas: 140000, from: web3.eth.accounts[0]}).then(function() {
-      let div_id = candidates[candidateName];
-      return contractInstance.totalVotesFor.call(candidateName).then(function(v) {
-        $("#" + div_id).html(v.toString());
-        $("#msg").html("");
-      });
-    });
-  });
-}
+        movingNext: function(index) {
+            this.curDisplay = index;
 
-/* The user enters the total no. of tokens to buy. We calculate the total cost and send it in
- * the request. We have to send the value in Wei. So, we use the toWei helper method to convert
- * from Ether to Wei.
- */
-window.returnTokens = function() {
-   
-  
-  $("#return-msg").html("交易進行中，請稍後.");
-    Voting.deployed().then(function(contractInstance) {
-    contractInstance.returnbuy({value: web3.toWei(0, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
-      $("#return-msg").html("交易進行中");
-      web3.eth.getBalance(contractInstance.address, function(error, result) {
-        $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-      });
-    })
-  });
-  populateTokenData();
-}
+            this.initalCarousel();
+        },
 
+        initalCarousel: function() {
+            var self = this;
+            var half_imgLen = Math.floor(this.imgLen / 2);
+            var leftNum, rightNum;
 
+            var k = 0;
+            for (var i = 0; i < half_imgLen; i++) {
+                leftNum = this.curDisplay - i - 1;
+                if (k == 0) {
+                    this.$aImg.eq(leftNum).css({
+                        transform: 'translateX(' + (-535 * (i + 1)) + 'px) translateZ(-120px)',
+                        width:"auto",
+                    }).animate({
+                        height: _slideHeight + 'px',
+                        marginTop: -_slideHeight / 2 + 'px',
+                        opacity: '0.6'
+                    }, 500);
+                    this.$aImg.eq(leftNum).attr('onclick', null);
 
+                    rightNum = this.curDisplay + i + 1;
+                    if (rightNum > this.imgLen - 1) rightNum -= this.imgLen;
+                    this.$aImg.eq(rightNum).css({
+                        transform: 'translateX(' + (600 * (i + 1)) + 'px) translateZ(-120px) ',
+                        width:"auto"
+                    }).animate({
+                        height: _slideHeight + 'px',
+                        marginTop: -_slideHeight / 2 + 'px',
+                        opacity: '0.6'
+                    }, 500);
+                    this.$aImg.eq(rightNum).attr('onclick', null);
+                    k++;
+                } else {
+                    this.$aImg.eq(leftNum).css({
+                        transform: 'translateX(0px) translateZ(-1000px) ',
+                        zIndex:-1
+                    });
 
+                    rightNum = this.curDisplay + i + 1;
+                    if (rightNum > this.imgLen - 1) rightNum -= this.imgLen;
+                    this.$aImg.eq(rightNum).css({
+                        transform: 'translateX(0px) translateZ(-1000px) ',
+                        zIndex:-1
+                    });
+                }
+                this.$aImg.removeClass('on');
+                this.$aNav.removeClass('on');
+            }
 
+            var _href = 'location.href=' + "'" + this.$aImg.eq(this.curDisplay).attr('data-url') + "'";
+            this.$aImg.eq(this.curDisplay).css({
+                transform: 'translateZ(0px)',
+                zIndex:99999
+            }).animate({
+                height: _height + 'px',
+                marginTop: -_height / 2 + 'px',
+                opacity: '1',
+            }, 500).addClass('on').attr('onclick', _href);
+            this.$aNav.eq(this.curDisplay).addClass('on');
 
+            this.$carousel.on('webkitTransitionEnd', function() {
+                self.b_switch = true;
+            });
+        },
 
+        inital: function() {
+            var self = this;
 
-window.buyTokens = function() {
-  let tokensToBuy = $("#buy").val();
-  let price = tokensToBuy * tokenPrice;
-  $("#buy-msg").html("交易已發送，請稍後.");
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
-      $("#buy-msg").html("");
-      web3.eth.getBalance(contractInstance.address, function(error, result) {
-        $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-      });
-    })
-  });
-  populateTokenData();
-}
+            this.initalCarousel();
 
-window.buyTokens2 = function() {
-  let tokensToBuy2 = $("#buy2").val();
-  let price2 = tokensToBuy2 * tokenPrice2;
-  $("#buy2-msg").html("交易已發送，請稍後.");
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.buy2({value: web3.toWei(price2, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
-      $("#buy2-msg").html("");
-      web3.eth.getBalance(contractInstance.address, function(error, result) {
-        $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-      });
-    })
-  });
-  populateTokenData2();
-}
+            this.$aImg.on('click', function(ev) {
+                if (self.b_switch && !$(this).hasClass('on')) {
+                    self.iNow = $(this).index();
+                    self.b_switch = false;
 
+                    var direction = self.viewWidth < ev.clientX ? 'next' : 'prev';
+                    var index = $(this).index();
 
-window.buyTokens3 = function() {
-  let tokensToBuy3 = $("#buy3").val();
-  let price3 = tokensToBuy3 * tokenPrice3;
-  $("#buy3-msg").html("交易已發送，請稍後.");
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.buy3({value: web3.toWei(price3, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
-      $("#buy3-msg").html("");
-      web3.eth.getBalance(contractInstance.address, function(error, result) {
-        $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-      });
-    })
-  });
-  populateTokenData3();
-}
+                    if (direction === 'next') {
+                        self.movingNext(index);
+                    } else {
+                        self.movingPrev(index);
+                    }
+                }
+            }).hover(function() {
+                clearInterval(self.timer);
+            }, function() {
+                self.timer = setInterval(function() {
+                    self.play();
+                }, self.interval);
+            });
+            this.$aNav.on('click', function(ev) {
+                if (self.b_switch && !$(this).hasClass('on')) {
+                    self.iNow = $(this).index();
+                    self.b_switch = false;
 
-window.lookupVoterInfo = function() {
-  let address = $("#voter-info").val();
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.voterDetails.call(address).then(function(v) {
-      $("#tokens-bought").html("大衛雞排券: " + v[0].toString());
-      $("#tokens-bought2").html("小而大水餃券: " + v[1].toString());
-      $("#tokens-bought3").html("黑鬍子牛排券: " + v[2].toString());
-    });
-  });
-}
+                    var direction = self.viewWidth < ev.clientX ? 'next' : 'prev';
+                    var index = $(this).index();
 
-/* Instead of hardcoding the candidates hash, we now fetch the candidate list from
- * the blockchain and populate the array. Once we fetch the candidates, we setup the
- * table in the UI with all the candidates and the votes they have received.
- */
-function populateCandidates() {
-  Voting.deployed().then(function(contractInstance) {
-    contractInstance.allCandidates.call().then(function(candidateArray) {
-      for(let i=0; i < candidateArray.length; i++) {
-        /* We store the candidate names as bytes32 on the blockchain. We use the
-         * handy toUtf8 method to convert from bytes32 to string
-         */
-        candidates[web3.toUtf8(candidateArray[i])] = "candidate-" + i;
-      }
-      setupCandidateRows();
-      populateCandidateVotes();
-      populateTokenData();
-    });
-  });
-}
+                    if (direction === 'next') {
+                        self.movingNext(index);
+                    } else {
+                        self.movingPrev(index);
+                    }
+                }
+            }).hover(function() {
+                clearInterval(self.timer);
+            }, function() {
+                self.timer = setInterval(function() {
+                    self.play();
+                }, self.interval);
+            });
 
-function populateCandidateVotes() {
-  let candidateNames = Object.keys(candidates);
-  for (var i = 0; i < candidateNames.length; i++) {
-    let name = candidateNames[i];
-    Voting.deployed().then(function(contractInstance) {
-      contractInstance.totalVotesFor.call(name).then(function(v) {
-        $("#" + candidates[name]).html(v.toString());
-      });
-    });
-  }
-}
+            this.timer = setInterval(function() {
+                self.play();
+            }, this.interval);
 
-function setupCandidateRows() {
-  Object.keys(candidates).forEach(function (candidate) {
-    $("#candidate-rows").append("<tr><td>" + candidate + "</td><td id='" + candidates[candidate] + "'></td></tr>");
-  });
-}
+            this.$carousel.on('selectstart', function() {
+                return false;
+            });
+        },
 
-/* Fetch the total tokens, tokens available for sale and the price of
- * each token and display in the UI
- */
-function populateTokenData() {
-  Voting.deployed().then(function(contractInstance) {
-  	contractInstance.totalTokens().then(function(v) {
-      $("#tokens-total").html(v.toString());
-    });
-    contractInstance.tokensRemaining.call().then(function(v) {
-      $("#tokens-remaining").html(v.toString());
-    });
-    contractInstance.tokensSold.call().then(function(v) {
-      $("#tokens-sold").html(v.toString());
-    });
-    contractInstance.tokenPrice().then(function(v) {
-      tokenPrice = parseFloat(web3.fromWei(v.toString()));
-      $("#token-cost").html(tokenPrice + " Ether");
-    });
-    web3.eth.getBalance(contractInstance.address, function(error, result) {
-      $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-    });
-  });
-}
+        constructor: Carousel
+    };
 
-function populateTokenData2() {
-  Voting.deployed().then(function(contractInstance) {
-  	contractInstance.totalTokens2().then(function(v) {
-      $("#tokens-total2").html(v.toString());
-    });
-    contractInstance.tokensRemaining2.call().then(function(v) {
-      $("#tokens-remaining2").html(v.toString());
-    });
-    contractInstance.tokensSold2.call().then(function(v) {
-      $("#tokens-sold2").html(v.toString());
-    });
-    contractInstance.tokenPrice2().then(function(v) {
-      tokenPrice2 = parseFloat(web3.fromWei(v.toString()));
-      $("#token-cost2").html(tokenPrice2 + " Ether");
-    });
-    web3.eth.getBalance(contractInstance.address, function(error, result) {
-      $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-    });
-  });
-}
+    $.fn.carousel = function(options) {
+        var carousel = new Carousel(this, options);
 
-function populateTokenData3() {
-  Voting.deployed().then(function(contractInstance) {
-  	contractInstance.totalTokens3().then(function(v) {
-      $("#tokens-total3").html(v.toString());
-    });
-    contractInstance.tokensRemaining3.call().then(function(v) {
-      $("#tokens-remaining3").html(v.toString());
-    });
-    contractInstance.tokensSold3.call().then(function(v) {
-      $("#tokens-sold3").html(v.toString());
-    });
-    contractInstance.tokenPrice3().then(function(v) {
-      tokenPrice3 = parseFloat(web3.fromWei(v.toString()));
-      $("#token-cost3").html(tokenPrice3 + " Ether");
-    });
-    web3.eth.getBalance(contractInstance.address, function(error, result) {
-      $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-    });
-  });
-}
+        return carousel.inital();
+    };
 
-
-$( document ).ready(function() {
-  if (typeof web3 !== 'undefined') {
-    console.warn("Using web3 detected from external source like Metamask")
-    // Use Mist/MetaMask's provider
-    window.web3 = new Web3(web3.currentProvider);
-  } else {
-    console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
-    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  }
-
-  Voting.setProvider(web3.currentProvider);
-  populateCandidates();
-
-});
+})(jQuery, window, document, undefined);

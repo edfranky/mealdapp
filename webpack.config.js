@@ -2,7 +2,7 @@ const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './app/scripts/index.js',
+  entry: ['./app/scripts/buy.js', './app/scripts/check.js','./app/scripts/index.js'],
   mode: 'production',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -11,7 +11,10 @@ module.exports = {
   plugins: [
     // Copy our app's index.html to the build folder.
     new CopyWebpackPlugin([
-      { from: './app/index.html', to: 'index.html' }
+      { from: './app/buy.html', to: 'buy.html' }
+	  ,{ from: './app/check.html', to: 'check.html' }
+	   ,{ from: './app/index.html', to: 'index.html' }
+	   
     ])
   ],
   devtool: 'source-map',
@@ -30,6 +33,9 @@ module.exports = {
     ]
   }
 }
+
+
+
 
 
 
